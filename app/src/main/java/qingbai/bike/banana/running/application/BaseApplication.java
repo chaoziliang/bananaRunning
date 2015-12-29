@@ -20,22 +20,22 @@ public class BaseApplication extends Application {
     /**
      * 异步线程，用于处理一般比较短暂的耗时操作，如数据库读写操作等<br>
      */
-    private static final HandlerThread SHORT_TASK_WORKER_THREAD = new HandlerThread(
+    protected static final HandlerThread SHORT_TASK_WORKER_THREAD = new HandlerThread(
             "Short-Task-Worker-Thread");
 
     static {
         SHORT_TASK_WORKER_THREAD.start();
     }
 
-    private final static Handler SHORT_TASK_HANDLER = new Handler(
+    protected final static Handler SHORT_TASK_HANDLER = new Handler(
             SHORT_TASK_WORKER_THREAD.getLooper());
-    private final static Handler MAIN_LOOPER_HANDLER = new Handler(
+    protected final static Handler MAIN_LOOPER_HANDLER = new Handler(
             Looper.getMainLooper());
 
-    private final static EventBus GLOBAL_EVENT_BUS = EventBus.getDefault();
+    protected final static EventBus GLOBAL_EVENT_BUS = EventBus.getDefault();
 
-    private static BaseApplication sInstance;
-    private static RequestQueue GLOBAL_REQUESTQUEUE;
+    protected static BaseApplication sInstance;
+    protected static RequestQueue GLOBAL_REQUESTQUEUE;
 
     public BaseApplication() {
         sInstance = this;
