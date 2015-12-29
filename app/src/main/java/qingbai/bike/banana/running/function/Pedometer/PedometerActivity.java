@@ -1,10 +1,12 @@
 package qingbai.bike.banana.running.function.Pedometer;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import qingbai.bike.banana.running.R;
@@ -18,6 +20,15 @@ public class PedometerActivity extends AppCompatActivity implements View.OnClick
     private TextView mStepNumTextView;
     private Button mStartCount;
     private Button mStopCount;
+
+    private TextView mSensitivityTextView;
+    private SeekBar sb_sensitivity;
+    private int sensitivity = 0;
+    public static SharedPreferences sharedPreferences;
+    public static final String SENSITIVITY_VALUE = "sensitivity_value";// 灵敏值
+    public static final String SETP_SHARED_PREFERENCES = "setp_shared_preferences";// 设置
+    private SharedPreferences.Editor editor;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,8 +44,46 @@ public class PedometerActivity extends AppCompatActivity implements View.OnClick
         mStartCount = (Button) findViewById(R.id.btn_start_count);
         mStopCount = (Button) findViewById(R.id.btn_stop_count);
 
+        mSensitivityTextView = (TextView) this
+                .findViewById(R.id.sensitivity_value);
+        sb_sensitivity = (SeekBar) this.findViewById(R.id.sensitivity);
+
         mStartCount.setOnClickListener(this);
         mStopCount.setOnClickListener(this);
+
+        sb_sensitivity.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {    // 灵敏值动作的监听
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar,
+                                          int progress, boolean fromUser) {
+                sensitivity = progress;
+                mSensitivityTextView.setText(sensitivity + "");
+                editor.putInt(SENSITIVITY_VALUE, 10 - sensitivity);
+                editor.commit();
+                StepDetector.SENSITIVITY = 10 - sensitivity;
+
+            }
+        });
+
+
+        if (sharedPreferences == null) {    //SharedPreferences是Android平台上一个轻量级的存储类，
+            //主要是保存一些常用的配置比如窗口状态
+            sharedPreferences = getSharedPreferences(SETP_SHARED_PREFERENCES,
+                    MODE_PRIVATE);
+        }
+
+        editor = sharedPreferences.edit();
+        sensitivity = 10 - sharedPreferences.getInt(SENSITIVITY_VALUE, 7);
+        mSensitivityTextView.setText(sensitivity + "");
 
     }
 

@@ -25,6 +25,7 @@
         android:textSize="15sp" />
 
     <LinearLayout
+        android:id="@+id/ll_control"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_step_number"
@@ -43,5 +44,83 @@
             android:layout_height="wrap_content"
             android:text="停止记步" />
     </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/ll_sensitivity_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ll_control"
+        android:layout_marginLeft="35dip"
+        android:layout_marginRight="10dip"
+        android:layout_marginTop="20dip"
+        android:orientation="horizontal"
+        android:paddingBottom="15dip"
+        android:paddingTop="15dip">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="灵敏度"
+            android:textColor="@android:color/black" />
+
+        <TextView
+            android:id="@+id/sensitivity_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dip"
+            android:textColor="@android:color/black" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_sensitivity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ll_sensitivity_value"
+        android:layout_marginLeft="10dip"
+        android:layout_marginRight="10dip"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/low"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:text="低"
+            android:textColor="@android:color/black" />
+
+        <SeekBar
+            android:id="@+id/sensitivity"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="10dip"
+            android:layout_weight="1"
+            android:max="10"
+            android:maxHeight="5dip"
+            android:minHeight="5dip"
+            android:progress="3" />
+
+        <TextView
+            android:id="@+id/high"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:text="高"
+            android:textColor="@android:color/black" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ll_sensitivity"
+        android:layout_marginLeft="35dip"
+        android:layout_marginRight="35dip"
+        android:layout_marginTop="5dp"
+        android:text="灵敏度: 越高,对身体的动作越敏感.请调节灵敏度来适应不同的体形,路面等因素."
+        android:textColor="@android:color/black" />
 
 </RelativeLayout>
