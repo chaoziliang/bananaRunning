@@ -57,6 +57,14 @@ public class BaseApplication extends Application {
 
         DrawUtil.resetDensity(this);
         GLOBAL_REQUESTQUEUE = Volley.newRequestQueue(this);
+
+        //在使用SDK各组件之前初始化context信息，传入ApplicationContext
+        //注意该方法要再setContentView方法之前实现
+        SDKInitializer.initialize(getApplicationContext());
+
+        mLocationClient = new LocationClient(this.getApplicationContext());
+        mMyLocationListener = new MyLocationListener();
+        mLocationClient.registerLocationListener(mMyLocationListener);
     }
 
 
@@ -225,18 +233,18 @@ public class BaseApplication extends Application {
         return sInstance;
     }
 
-    @Override
-    public void onCreate() {
-        super.onCreate();
-
-        //在使用SDK各组件之前初始化context信息，传入ApplicationContext
-        //注意该方法要再setContentView方法之前实现
-        SDKInitializer.initialize(getApplicationContext());
-
-        mLocationClient = new LocationClient(this.getApplicationContext());
-        mMyLocationListener = new MyLocationListener();
-        mLocationClient.registerLocationListener(mMyLocationListener);
-    }
+//    @Override
+//    public void onCreate() {
+//        super.onCreate();
+//
+//        //在使用SDK各组件之前初始化context信息，传入ApplicationContext
+//        //注意该方法要再setContentView方法之前实现
+//        SDKInitializer.initialize(getApplicationContext());
+//
+//        mLocationClient = new LocationClient(this.getApplicationContext());
+//        mMyLocationListener = new MyLocationListener();
+//        mLocationClient.registerLocationListener(mMyLocationListener);
+//    }
 
     /**
      * 实现实时位置回调监听
