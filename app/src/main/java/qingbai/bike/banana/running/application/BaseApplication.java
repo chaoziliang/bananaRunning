@@ -6,7 +6,11 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.Volley;
+
 import de.greenrobot.event.EventBus;
+import qingbai.bike.banana.running.utils.DrawUtil;
 
 
 /**
@@ -31,8 +35,7 @@ public class BaseApplication extends Application {
     private final static EventBus GLOBAL_EVENT_BUS = EventBus.getDefault();
 
     private static BaseApplication sInstance;
-    private static String sUID;
-    private static String sSVN;
+    private static RequestQueue GLOBAL_REQUESTQUEUE;
 
     public BaseApplication() {
         sInstance = this;
@@ -42,7 +45,21 @@ public class BaseApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
+        DrawUtil.resetDensity(this);
+        GLOBAL_REQUESTQUEUE = Volley.newRequestQueue(this);
     }
+
+
+
+    /**
+     * 获取一个全局的网络请求<br>
+     *
+     * @return
+     */
+    public static RequestQueue getGlobalRequestQueue() {
+        return GLOBAL_REQUESTQUEUE;
+    }
+
 
 
     /**
