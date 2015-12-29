@@ -32,10 +32,11 @@
         <activity
             android:name=".function.Pedometer.PedometerActivity"
             android:label="@string/title_activity_step_count"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <service android:name=".function.Pedometer.PedometerService" />
 
+        <activity android:name=".function.weather.WeatherDemo"></activity>
     </application>
 
 </manifest>
