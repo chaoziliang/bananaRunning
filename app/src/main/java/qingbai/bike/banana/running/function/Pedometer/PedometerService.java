@@ -60,7 +60,7 @@ public class PedometerService extends Service {
         mWakeLock = mPowerManager.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, "S");
         mWakeLock.acquire();
 
-        //启动定时器进行数据刷新
+        /*******启动定时器进行数据刷新*********/
         PedometerManager.getInstance().startStepCountTask();
     }
 
