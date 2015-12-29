@@ -67,6 +67,7 @@ public class StepDetector implements SensorEventListener {
                     CURRENT_STEP++;
                 }
             } else if (sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+
                 //加速度传感器
                 int j = (sensor.getType() == Sensor.TYPE_ACCELEROMETER) ? 1 : 0;
                 if (j == 1) {
