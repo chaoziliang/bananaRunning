@@ -5,7 +5,6 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.util.Log;
 
 /**
  * zoubo
@@ -17,7 +16,7 @@ public class StepDetector implements SensorEventListener {
 
     public static int CURRENT_STEP = 0;
 
-    public static float SENSITIVITY = 4;   //SENSITIVITY灵敏度
+    public static float SENSITIVITY = 3;   //SENSITIVITY灵敏度
 
     private float mLastValues[] = new float[3 * 2];
     private float mScale[] = new float[2];
@@ -47,9 +46,9 @@ public class StepDetector implements SensorEventListener {
         mScale[1] = -(h * 0.5f * (1.0f / (SensorManager.MAGNETIC_FIELD_EARTH_MAX)));
     }
 
-     public void setSensitivity(float sensitivity) {
-     SENSITIVITY = sensitivity; // 1.97 2.96 4.44 6.66 10.00 15.00 22.50  33.75  50.62
-     }
+    public void setSensitivity(float sensitivity) {
+        SENSITIVITY = sensitivity; // 1.97 2.96 4.44 6.66 10.00 15.00 22.50  33.75  50.62
+    }
 
     @Override
     public void onSensorChanged(SensorEvent event) {
@@ -71,6 +70,7 @@ public class StepDetector implements SensorEventListener {
                 //加速度传感器
                 int j = (sensor.getType() == Sensor.TYPE_ACCELEROMETER) ? 1 : 0;
                 if (j == 1) {
+                    //加速度取模
                     float vSum = 0;
                     for (int i = 0; i < 3; i++) {
                         final float v = mYOffset + event.values[i] * mScale[j];
@@ -95,13 +95,13 @@ public class StepDetector implements SensorEventListener {
                             if (isAlmostAsLargeAsPrevious && isPreviousLargeEnough && isNotContra) {
                                 end = System.currentTimeMillis();
 
-                                //1、方法1
-                                if (end - start > 500) {  // 此时判断为走了一步
-                                    Log.i("zou", "StepDetector CURRENT_STEP:" + CURRENT_STEP);
+                                //步数矫正，步伐间隔<200ms和>2000ms，认为是无效步数,这部分也是目前终端计步器算法的核心。
+                                if (end - start > 200 && end - start < 2000) {  // 此时判断为走了一步
                                     CURRENT_STEP++;
                                     mLastMatch = extType;
-                                    start = end;
                                 }
+//                                Log.i("zou", "StepDetector CURRENT_STEP:" + CURRENT_STEP + "&& end - start = " + (end - start));
+                                start = end;
                             } else {
                                 mLastMatch = -1;
                             }

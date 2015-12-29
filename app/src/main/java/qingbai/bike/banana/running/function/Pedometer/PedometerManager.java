@@ -1,7 +1,5 @@
 package qingbai.bike.banana.running.function.Pedometer;
 
-import android.util.Log;
-
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -16,10 +14,8 @@ public class PedometerManager {
 
     private Timer mTimer; // 定时器
     private TimerTask mStepCountTask;
-    private static final int WAIT_TIME = 2 * 1000; // 2秒
+    private static final int WAIT_TIME = 1 * 1000; // 延时1秒后开始记步
     private static final int CHECK_TIME = 300; // 每300毫秒查询一次
-
-    private int mTotalStep = 0;   //走的总步数
 
     private PedometerManager() {
 
@@ -49,7 +45,7 @@ public class PedometerManager {
     private class StepCountTask extends TimerTask {
         @Override
         public void run() {
-            //TODO:通知主线程
+            //TODO:通知UI线程
             countStep();
         }
     }
@@ -66,18 +62,14 @@ public class PedometerManager {
         }
     }
 
+    /**
+     * 开始记步，并通知UI线程
+     */
     private void countStep() {
-        mTotalStep = StepDetector.CURRENT_STEP;
-        Log.i("zou", "StepCountTask" + "  mTotalStep = " + mTotalStep);
         PedometerEvent event = new PedometerEvent();
         event.mIsUpdate = true;
+        event.mTotalStep = StepDetector.CURRENT_STEP;
         BaseApplication.postEvent(event);
     }
-
-
-    public int getTotalStep() {
-        return mTotalStep;
-    }
-
 
 }

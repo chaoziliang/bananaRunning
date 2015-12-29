@@ -3,7 +3,6 @@ package qingbai.bike.banana.running.function.Pedometer;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -14,13 +13,11 @@ import qingbai.bike.banana.running.application.BaseApplication;
 /**
  * zoubo
  * 计步器模块
- * */
+ */
 public class PedometerActivity extends AppCompatActivity implements View.OnClickListener {
     private TextView mStepNumTextView;
     private Button mStartCount;
     private Button mStopCount;
-
-    private int mTotalStep = 0;   //走的总步数
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,18 +40,11 @@ public class PedometerActivity extends AppCompatActivity implements View.OnClick
 
     public void onEventMainThread(PedometerEvent event) {
         if (event.mIsUpdate) {
-            countStep();
-            mStepNumTextView.setText(mTotalStep + "");  // 显示当前步数
+            mStepNumTextView.setText(event.mTotalStep + "");  // 显示当前步数
+
         }
     }
 
-    /**
-     * 实际的步数
-     */
-    private void countStep() {
-        mTotalStep = StepDetector.CURRENT_STEP;
-        Log.i("zou", "MainActivity mTotalStep＝ " + mTotalStep);
-    }
 
     @Override
     public void onClick(View v) {
@@ -65,6 +55,7 @@ public class PedometerActivity extends AppCompatActivity implements View.OnClick
         } else if (v.getId() == R.id.btn_stop_count) {
             stopService(service);
             StepDetector.CURRENT_STEP = 0;
+//            mStepNumTextView.setText(StepDetector.CURRENT_STEP + "");  // 显示当前步数
         }
     }
 

@@ -6,4 +6,5 @@ package qingbai.bike.banana.running.function.Pedometer;
  */
 public class PedometerEvent {
     public boolean mIsUpdate = false;
+    public int mTotalStep = 0;
 }
