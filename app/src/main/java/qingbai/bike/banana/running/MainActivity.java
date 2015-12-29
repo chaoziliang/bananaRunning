@@ -5,8 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-import qingbai.bike.banana.running.function.Pedometer.PedometerActivity;
-import qingbai.bike.banana.running.function.weather.WeatherDemo;
+import qingbai.bike.banana.running.function.pedometers.PedometerActivity;
 import qingbai.bike.banana.running.function.runningMap.MapMainActivity;
 
 public class MainActivity extends AppCompatActivity {

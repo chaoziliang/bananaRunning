@@ -79,11 +79,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".function.Pedometer.PedometerActivity"
+            android:name=".function.pedometers.PedometerActivity"
             android:label="@string/title_activity_step_count"
             android:theme="@style/AppTheme.NoActionBar" />
 
-        <service android:name=".function.Pedometer.PedometerService" />
+        <service android:name=".function.pedometers.PedometerService" />
 
         <activity android:name=".function.weather.WeatherDemo"></activity>
     </application>

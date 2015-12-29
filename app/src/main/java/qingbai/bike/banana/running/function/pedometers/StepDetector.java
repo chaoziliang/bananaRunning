@@ -1,10 +1,11 @@
-package qingbai.bike.banana.running.function.Pedometer;
+package qingbai.bike.banana.running.function.pedometers;
 
 import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.util.Log;
 
 /**
  * zoubo
@@ -109,7 +110,7 @@ public class StepDetector implements SensorEventListener {
                                     CURRENT_STEP++;
                                     mLastMatch = extType;
                                 }
-//                                Log.i("zou", "StepDetector CURRENT_STEP:" + CURRENT_STEP + "&& end - start = " + (end - start));
+                                Log.i("zou", "StepDetector CURRENT_STEP:" + CURRENT_STEP + "&& end - start = " + (end - start));
                                 start = end;
                             } else {
                                 mLastMatch = -1;

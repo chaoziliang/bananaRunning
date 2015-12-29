@@ -1,4 +1,4 @@
-package qingbai.bike.banana.running.function.Pedometer;
+package qingbai.bike.banana.running.function.pedometers;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -89,8 +89,7 @@ public class PedometerActivity extends AppCompatActivity implements View.OnClick
 
     public void onEventMainThread(PedometerEvent event) {
         if (event.mIsUpdate) {
-            mStepNumTextView.setText(event.mTotalStep + "");  // 显示当前步数
-
+            mStepNumTextView.setText(StepDetector.CURRENT_STEP + "");  // 显示当前步数
         }
     }
 
@@ -106,6 +105,12 @@ public class PedometerActivity extends AppCompatActivity implements View.OnClick
             StepDetector.CURRENT_STEP = 0;
 //            mStepNumTextView.setText(StepDetector.CURRENT_STEP + "");  // 显示当前步数
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mStepNumTextView.setText(StepDetector.CURRENT_STEP + "");  // 显示当前步数
     }
 
     @Override
