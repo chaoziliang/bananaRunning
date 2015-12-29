@@ -1,4 +1,4 @@
-package qingbai.bike.banana.running.function.step;
+package qingbai.bike.banana.running.function.Pedometer;
 
 import android.app.Service;
 import android.content.Context;
@@ -13,7 +13,7 @@ import android.widget.Toast;
 /**
  * 计步器服务
  */
-public class StepCounterService extends Service {
+public class PedometerService extends Service {
 
     public static Boolean FLAG = false;  // 服务运行标志
 
@@ -61,7 +61,7 @@ public class StepCounterService extends Service {
         mWakeLock.acquire();
 
         //启动定时器进行数据刷新
-        StepCountManager.getInstance().startStepCountTask();
+        PedometerManager.getInstance().startStepCountTask();
     }
 
     @Override
@@ -76,7 +76,7 @@ public class StepCounterService extends Service {
             mWakeLock.release();
         }
 
-        StepCountManager.getInstance().stopStepCountTime();
+        PedometerManager.getInstance().stopStepCountTime();
     }
 
 }

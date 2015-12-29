@@ -1,16 +1,18 @@
-package qingbai.bike.banana.running.function.step;
+package qingbai.bike.banana.running.function.Pedometer;
 
 import android.util.Log;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
+import qingbai.bike.banana.running.application.BaseApplication;
+
 /**
  * Created by zou on 15/12/25.
  * 计步器管理类
  */
-public class StepCountManager {
-    private static StepCountManager sInstance;
+public class PedometerManager {
+    private static PedometerManager sInstance;
 
     private Timer mTimer; // 定时器
     private TimerTask mStepCountTask;
@@ -19,13 +21,13 @@ public class StepCountManager {
 
     private int mTotalStep = 0;   //走的总步数
 
-    private StepCountManager() {
+    private PedometerManager() {
 
     }
 
-    public synchronized static StepCountManager getInstance() {
+    public synchronized static PedometerManager getInstance() {
         if (sInstance == null) {
-            sInstance = new StepCountManager();
+            sInstance = new PedometerManager();
         }
         return sInstance;
     }
@@ -67,6 +69,9 @@ public class StepCountManager {
     private void countStep() {
         mTotalStep = StepDetector.CURRENT_STEP;
         Log.i("zou", "StepCountTask" + "  mTotalStep = " + mTotalStep);
+        PedometerEvent event = new PedometerEvent();
+        event.mIsUpdate = true;
+        BaseApplication.postEvent(event);
     }
 
 

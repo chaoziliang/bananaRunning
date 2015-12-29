@@ -13,5 +13,31 @@
         android:id="@+id/hi"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!" />
+        android:text="功能模块" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/hi"
+        android:layout_marginTop="20dp"
+        android:orientation="vertical">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="天气" />
+
+        <Button
+            android:id="@+id/btn_goto_pedometer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="计步器" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="地图" />
+    </LinearLayout>
+
+
 </RelativeLayout>

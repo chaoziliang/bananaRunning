@@ -73,6 +73,24 @@ public class BaseApplication extends Application {
     }
 
     /**
+     * 注册事件
+     *
+     * @param object
+     */
+    public static void globalRegisterEvent(Object object) {
+        GLOBAL_EVENT_BUS.register(object);
+    }
+
+    /**
+     * 反注册事件
+     *
+     * @param object
+     */
+    public static void globalUnRegisterEvent(Object object) {
+        GLOBAL_EVENT_BUS.unregister(object);
+    }
+
+    /**
      * 提交一个Runable到短时任务线程执行<br>
      * <p>
      * <strong>NOTE:</strong>

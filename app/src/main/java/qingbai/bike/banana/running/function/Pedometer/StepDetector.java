@@ -1,4 +1,4 @@
-package qingbai.bike.banana.running.function.step;
+package qingbai.bike.banana.running.function.Pedometer;
 
 import android.content.Context;
 import android.hardware.Sensor;

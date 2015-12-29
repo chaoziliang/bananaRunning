@@ -2,7 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="qingbai.bike.banana.running">
 
+    <!-- 电源管理权限 -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
     <application
+        android:name=".application.BaseApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -15,6 +19,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".function.Pedometer.PedometerActivity"
+            android:label="@string/title_activity_step_count"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+
+        <service android:name=".function.Pedometer.PedometerService" />
+
     </application>
 
 </manifest>
