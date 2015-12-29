@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff" >
+
+    <RelativeLayout
+        android:id="@+id/title_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="55dp"
+        android:layout_alignParentTop="true"
+        android:background="#2c81fe">
+
+        <ImageView
+            android:id="@+id/logout_app"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:src="@drawable/ic_closed_white"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="12dp"
+            android:layout_centerVertical="true"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textSize="18sp"
+            android:textColor="#ffffff"
+            android:text="跑步地图"/>
+
+        <ImageView
+            android:id="@+id/person_button"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="12dp"
+            android:layout_centerVertical="true"
+            android:visibility="gone"/>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/bottom_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="83dp"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/shape_top"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_weight="1.0"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:visibility="gone">
+
+            <qingbai.bike.banana.running.view.HorizontalListView
+                android:id="@+id/user_scroll_view"
+                android:layout_width="fill_parent"
+                android:layout_height="32dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="15.5dp">
+            </qingbai.bike.banana.running.view.HorizontalListView>
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/scroll_left_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/left_more"
+            android:visibility="gone"/>
+
+        <Button
+            android:id="@+id/controlButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5px"
+            android:textColor="#000000"
+            android:textSize="20sp"
+            android:text="开始"
+            android:layout_marginRight="5dp"
+            android:paddingLeft="10px"
+            android:paddingRight="10px"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="5px">
+
+                <TextView
+                    android:id="@+id/totalDistance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="距离："
+                    android:layout_marginRight="5dp"/>
+
+                <TextView
+                    android:id="@+id/speedEver"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="平均速度："
+                    android:layout_marginRight="5dp"/>
+
+                <TextView
+                    android:id="@+id/speedEfficiency"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="平均速率："
+                    android:layout_marginRight="5dp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/currentSpeed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="当前速度："
+                    android:layout_marginRight="5dp"/>
+
+                <TextView
+                    android:id="@+id/kaluli"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="卡路里："
+                    android:layout_marginRight="5dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="卡路里："
+                    android:layout_marginRight="5dp"
+                    android:visibility="gone"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <com.baidu.mapapi.map.MapView
+        android:id="@+id/bmapView"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@id/title_layout"
+        android:layout_above="@id/bottom_layout"
+        android:clickable="true" />
+
+    <LinearLayout
+        android:id="@+id/change_mode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/bottom_layout"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="60.0dip"
+        android:layout_marginLeft="5.0dip"
+        android:background="@drawable/button_selector"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/mode_title"
+            android:layout_width="35dp"
+            android:layout_height="30dp"
+            android:text="跟随"
+            android:gravity="center"
+            android:textSize="14sp"
+            android:textColor="#2c81ff"/>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/ZoomControlView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/bottom_layout"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="15.0dip"
+        android:layout_marginRight="5.0dip"
+        android:background="@drawable/shape_zoom_bg">
+
+        <Button
+            android:id="@+id/zoomin"
+            android:layout_width="32dip"
+            android:layout_height="32dip"
+            android:background="@drawable/amplification_selector" />
+
+        <Button
+            android:id="@+id/zoomout"
+            android:layout_width="32dip"
+            android:layout_height="32dip"
+            android:layout_below="@+id/zoomin"
+            android:background="@drawable/narrow_selector" />
+    </RelativeLayout>
+
+</RelativeLayout>
