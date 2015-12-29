@@ -6,5 +6,4 @@ package qingbai.bike.banana.running.function.Pedometer;
  */
 public class PedometerEvent {
     public boolean mIsUpdate = false;
-
 }
