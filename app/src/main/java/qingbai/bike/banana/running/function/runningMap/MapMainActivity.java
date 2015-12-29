@@ -8,7 +8,6 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -412,17 +411,17 @@ public class MapMainActivity extends Activity {
                 LatLng pointPre = points.get(0);
 
                 Double recent = DistanceUtil.getDistance(pointPre, point);
-                if (recent > 1000) {
-                    points.remove(point);
-                    return;
-                }
+//                if (recent > 1000) {
+//                    points.remove(point);
+//                    return;
+//                }
 
-                OverlayOptions ooPolyline = new PolylineOptions().width(5)
+                OverlayOptions ooPolyline = new PolylineOptions().width(10)
                         .color(0xAAFF0000).points(points);
                 mBaiduMap.addOverlay(ooPolyline);  //绘制折线
 
                 mTotalDistance += recent;
-                Log.v("zou", "------" + location.getSpeed() + "---distance---" + recent);
+//                Log.v("zou", "------" + location.getSpeed() + "---distance---" + recent);
                 if (mIsCalculate == 2) { //停止运动
                     Date endDate = new Date();
                     ((TextView)findViewById(R.id.totalDistance)).setText("运动距离:" + Math.round((float) mTotalDistance * 100) / 100.0 + "米");
@@ -433,8 +432,8 @@ public class MapMainActivity extends Activity {
 
                     ((TextView)findViewById(R.id.speedEfficiency)).setText("平均速率：" + Math.round(1000/everSpeed * 100)/100.0 + "分钟");
 
-                    double kaluli = calcCalorie(sportTime/1000f, mTotalDistance, mTotalDistance/(sportTime/1000f), 0, 55);
-                    ((TextView)findViewById(R.id.kaluli)).setText("卡路里：" + kaluli);
+                    double kaluli = calcCalorie(sportTime/1000f, mTotalDistance, mTotalDistance/(sportTime/1000f), 0, 80);
+                    ((TextView)findViewById(R.id.kaluli)).setText("卡路里：" + Math.round(kaluli * 100) / 100.0 + "大卡");
 
                     mIsCalculate = 0;
                 }
