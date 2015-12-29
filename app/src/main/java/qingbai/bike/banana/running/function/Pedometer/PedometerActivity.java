@@ -22,7 +22,7 @@ public class PedometerActivity extends AppCompatActivity implements View.OnClick
     private Button mStopCount;
 
     private TextView mSensitivityTextView;
-    private SeekBar sb_sensitivity;
+    private SeekBar mSeekBarbSensitivity;
     private int sensitivity = 0;
     public static SharedPreferences sharedPreferences;
     public static final String SENSITIVITY_VALUE = "sensitivity_value";// 灵敏值
@@ -46,12 +46,12 @@ public class PedometerActivity extends AppCompatActivity implements View.OnClick
 
         mSensitivityTextView = (TextView) this
                 .findViewById(R.id.sensitivity_value);
-        sb_sensitivity = (SeekBar) this.findViewById(R.id.sensitivity);
+        mSeekBarbSensitivity = (SeekBar) this.findViewById(R.id.sensitivity);
 
         mStartCount.setOnClickListener(this);
         mStopCount.setOnClickListener(this);
 
-        sb_sensitivity.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {    // 灵敏值动作的监听
+        mSeekBarbSensitivity.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {    // 灵敏值动作的监听
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
@@ -77,12 +77,12 @@ public class PedometerActivity extends AppCompatActivity implements View.OnClick
 
         if (sharedPreferences == null) {    //SharedPreferences是Android平台上一个轻量级的存储类，
             //主要是保存一些常用的配置比如窗口状态
-            sharedPreferences = getSharedPreferences(SETP_SHARED_PREFERENCES,
-                    MODE_PRIVATE);
+            sharedPreferences = getSharedPreferences(SETP_SHARED_PREFERENCES, MODE_PRIVATE);
         }
 
         editor = sharedPreferences.edit();
         sensitivity = 10 - sharedPreferences.getInt(SENSITIVITY_VALUE, 7);
+        mSeekBarbSensitivity.setProgress(sensitivity);
         mSensitivityTextView.setText(sensitivity + "");
 
     }
