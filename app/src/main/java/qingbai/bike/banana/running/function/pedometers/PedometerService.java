@@ -7,8 +7,9 @@ import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.IBinder;
 import android.os.PowerManager;
-import android.os.PowerManager.WakeLock;
 import android.widget.Toast;
+
+import qingbai.bike.banana.running.application.BaseApplication;
 
 /**
  * zoubo
@@ -22,7 +23,7 @@ public class PedometerService extends Service {
     private StepDetector detector;  // 传感器监听对象
 
     private PowerManager mPowerManager; // 电源管理服务
-    private WakeLock mWakeLock;  // 屏幕灯
+    private PowerManager.WakeLock mWakeLock;  // 屏幕灯
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -58,13 +59,13 @@ public class PedometerService extends Service {
         /*******启动定时器进行数据刷新*********/
         PedometerManager.getInstance().startStepCountTask();
 
-        // 电源管理服务
-        mPowerManager = (PowerManager) this
+        // 电源管理服务  PARTIAL_WAKE_LOCK : CPU 运转，屏幕和键盘灯关闭
+        mPowerManager = (PowerManager) BaseApplication.getAppContext()
                 .getSystemService(Context.POWER_SERVICE);
-        mWakeLock = mPowerManager.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, "S");
+//        mWakeLock = mPowerManager.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, "AccelOn");
+        mWakeLock = mPowerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "AccelOn");
         mWakeLock.acquire();
     }
-
 
 
     @Override
