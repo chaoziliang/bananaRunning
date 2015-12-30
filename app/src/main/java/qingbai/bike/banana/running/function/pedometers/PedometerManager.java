@@ -1,4 +1,6 @@
-package qingbai.bike.banana.running.function.Pedometer;
+package qingbai.bike.banana.running.function.pedometers;
+
+import android.util.Log;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -47,6 +49,7 @@ public class PedometerManager {
         public void run() {
             //TODO:通知UI线程
             countStep();
+
         }
     }
 
@@ -70,6 +73,8 @@ public class PedometerManager {
         event.mIsUpdate = true;
         event.mTotalStep = StepDetector.CURRENT_STEP;
         BaseApplication.postEvent(event);
+        Log.i("zou", "<PedometerManager> countStep" );
+
     }
 
 }

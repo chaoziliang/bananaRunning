@@ -1,4 +1,4 @@
-package qingbai.bike.banana.running.function.Pedometer;
+package qingbai.bike.banana.running.function.pedometers;
 
 import android.app.Service;
 import android.content.Context;
@@ -55,15 +55,17 @@ public class PedometerService extends Service {
                     SensorManager.SENSOR_DELAY_FASTEST);
         }
 
+        /*******启动定时器进行数据刷新*********/
+        PedometerManager.getInstance().startStepCountTask();
+
         // 电源管理服务
         mPowerManager = (PowerManager) this
                 .getSystemService(Context.POWER_SERVICE);
         mWakeLock = mPowerManager.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, "S");
         mWakeLock.acquire();
-
-        /*******启动定时器进行数据刷新*********/
-        PedometerManager.getInstance().startStepCountTask();
     }
+
+
 
     @Override
     public void onDestroy() {
