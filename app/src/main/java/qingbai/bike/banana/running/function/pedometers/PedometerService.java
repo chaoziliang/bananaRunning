@@ -1,4 +1,4 @@
-package qingbai.bike.banana.running.function.Pedometer;
+package qingbai.bike.banana.running.function.pedometers;
 
 import android.app.Service;
 import android.content.Context;
@@ -11,6 +11,7 @@ import android.os.PowerManager.WakeLock;
 import android.widget.Toast;
 
 /**
+ * zoubo
  * 计步器服务
  */
 public class PedometerService extends Service {
@@ -44,25 +45,27 @@ public class PedometerService extends Service {
         Sensor countSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR);
 
         if (countSensor != null) {
+            Toast.makeText(this, "Count sensor is available!", Toast.LENGTH_SHORT).show();
             mSensorManager.registerListener(detector, countSensor, SensorManager.SENSOR_DELAY_UI);
-            Toast.makeText(this, "Count sensor is available!", Toast.LENGTH_LONG).show();
-        } else {
-            Toast.makeText(this, "Count sensor not available!", Toast.LENGTH_LONG).show();
+        } else {  //采用加速的传感器计算
+            Toast.makeText(this, "Count sensor not available!", Toast.LENGTH_SHORT).show();
             // 注册传感器，注册监听器
             mSensorManager.registerListener(detector,
                     mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
                     SensorManager.SENSOR_DELAY_FASTEST);
         }
 
+        /*******启动定时器进行数据刷新*********/
+        PedometerManager.getInstance().startStepCountTask();
+
         // 电源管理服务
         mPowerManager = (PowerManager) this
                 .getSystemService(Context.POWER_SERVICE);
         mWakeLock = mPowerManager.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, "S");
         mWakeLock.acquire();
-
-        /*******启动定时器进行数据刷新*********/
-        PedometerManager.getInstance().startStepCountTask();
     }
+
+
 
     @Override
     public void onDestroy() {
@@ -76,7 +79,7 @@ public class PedometerService extends Service {
             mWakeLock.release();
         }
 
-        PedometerManager.getInstance().stopStepCountTime();
+        PedometerManager.getInstance().stopStepCountTask();
     }
 
 }

@@ -1,4 +1,4 @@
-package qingbai.bike.banana.running.function.Pedometer;
+package qingbai.bike.banana.running.function.pedometers;
 
 /**
  * Created by zoubo on 2015/10/24.

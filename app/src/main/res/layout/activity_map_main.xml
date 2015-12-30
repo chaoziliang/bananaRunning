@@ -85,6 +85,11 @@
             android:paddingLeft="10px"
             android:paddingRight="10px"/>
 
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -111,12 +116,6 @@
                     android:text="平均速度："
                     android:layout_marginRight="5dp"/>
 
-                <TextView
-                    android:id="@+id/speedEfficiency"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="平均速率："
-                    android:layout_marginRight="5dp"/>
 
             </LinearLayout>
 
@@ -131,6 +130,22 @@
                     android:layout_height="wrap_content"
                     android:text="当前速度："
                     android:layout_marginRight="5dp"/>
+
+                <TextView
+                    android:id="@+id/speedEfficiency"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="平均速率："
+                    android:layout_marginRight="5dp"/>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="5px">
 
                 <TextView
                     android:id="@+id/kaluli"
@@ -149,6 +164,8 @@
             </LinearLayout>
 
         </LinearLayout>
+
+        </ScrollView>
 
     </LinearLayout>
 
