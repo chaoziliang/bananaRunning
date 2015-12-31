@@ -75,7 +75,7 @@ public class PedometerService extends Service {
         mStepCount = mSensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
         mStepDetector = mSensorManager.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR);
 
-        if (mStepCount != null) {
+        if (mStepCount != null && mStepDetector != null) {
             Toast.makeText(this, "记步传感器可用!", Toast.LENGTH_SHORT).show();
             mSensorManager.registerListener(detector, mStepCount, SensorManager.SENSOR_DELAY_UI);
             mSensorManager.registerListener(detector, mStepDetector, SensorManager.SENSOR_DELAY_UI);

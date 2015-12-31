@@ -25,7 +25,6 @@ public class ScreenChangeReceiver extends BroadcastReceiver {
             Log.d(TAG, "screen unlock");
         } else if (Intent.ACTION_CLOSE_SYSTEM_DIALOGS.equals(intent.getAction())) {
             Log.i(TAG, " receive Intent.ACTION_CLOSE_SYSTEM_DIALOGS");
-            PedometerManager.getInstance().stopStepCountTask();
         }
 
     }
