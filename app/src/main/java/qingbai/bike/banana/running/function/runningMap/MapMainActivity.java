@@ -2,6 +2,7 @@ package qingbai.bike.banana.running.function.runningMap;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -10,7 +11,9 @@ import android.os.Handler;
 import android.os.Message;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -42,6 +45,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Timer;
+import java.util.TimerTask;
 
 import qingbai.bike.banana.running.R;
 import qingbai.bike.banana.running.application.BaseApplication;
@@ -80,7 +84,8 @@ public class MapMainActivity extends Activity {
     private double mLatitude = 0;
     private double mLongitude = 0;
 
-    private Timer mTimer;
+    private Timer mTimer = new Timer();
+    TimerTask mTask = null;
     private static final int MESSAGE_TIMER_LOAD = 1001;
 
     private Map<String, SoftReference<Bitmap>> mImageCache = new HashMap<>();
@@ -93,15 +98,22 @@ public class MapMainActivity extends Activity {
     private double mTotalDistance;
     private Date mStartTime;
     private Button mStartButton;
+    private Date mEndTime;
 
     private int mIsCalculate = 0; //1开始  2停止
+
+    private int mWeight = 0; //人体重量 公斤
 
     private Handler mHander = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
 
-
+            if (msg.what == 1) {
+                mEndTime = new Date();
+                long sportTime = mEndTime.getTime() - mStartTime.getTime();
+                ((TextView) findViewById(R.id.sport_time)).setText("运动时间：" + sportTime/1000 + "秒");
+            }
         }
     };
 
@@ -199,30 +211,81 @@ public class MapMainActivity extends Activity {
             }
         });
 
+        findViewById(R.id.weight_ok).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EditText et = (EditText) findViewById(R.id.weight_edit);
+                if (et.getText().toString() != null && Integer.parseInt(et.getText().toString()) != 0) {
+                    mWeight = Integer.parseInt(et.getText().toString());
+                    findViewById(R.id.dialog_layout).setVisibility(View.GONE);
+                    findViewById(R.id.data_layout).setVisibility(View.VISIBLE);
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(et.getWindowToken(), 0); //强制隐藏键盘
+                } else {
+                    Toast.makeText(MapMainActivity.this, "请输入正确的体重数量", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
         //点击开始计算按钮
         mStartButton = (Button) findViewById(R.id.controlButton);
         mStartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if ("开始".equals(((Button) v).getText())) {
+
+                    if (mWeight == 0) {
+                        findViewById(R.id.data_layout).setVisibility(View.GONE);
+                        findViewById(R.id.dialog_layout).setVisibility(View.VISIBLE);
+                        Toast.makeText(MapMainActivity.this, "请先输入你的体重！", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
                     ((Button) v).setText("停止");
                     mStartTime = new Date();
                     mTotalDistance = 0;
                     points.clear();
+                    mHistoryPoints.clear();
+                    mBaiduMap.clear();
 
                     mHander.postDelayed(new Runnable() {
                         @Override
                         public void run() {
                             mIsCalculate = 1;
                         }
-                    }, 2000);
+                    }, 1000);
 
+                    mTask = new TimerTask() {
+
+                        @Override
+                        public void run() {
+                            // 需要做的事:发送消息
+                            Message message = new Message();
+                            message.what = 1;
+                            mHander.sendMessage(message);
+                        }
+                    };
+                    mTimer.schedule(mTask, 1000, 1000); // 1s后执行task,经过1s再次执行
+//
 //                    RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT, 300);
 //                    mMapView.setLayoutParams(lp);
+
+//                    Context context = MapMainActivity.this;
+//                    ApplicationInfo appi;
+//                    try {
+//                        appi = context.getPackageManager().getApplicationInfo(
+//                                context.getPackageName(), PackageManager.GET_META_DATA);
+//                        appi.metaData.putString("com.baidu.lbsapi.API_KEY", "");
+//                    } catch (PackageManager.NameNotFoundException e1) {
+//                        e1.printStackTrace();
+//                    }
 
                 } else {
                     ((Button) v).setText("开始");
                     mIsCalculate = 2;
+                    if (mTask != null) {
+                        mTask.cancel();
+                    }
 //                    RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
 //                    mMapView.setLayoutParams(lp);
                 }
@@ -239,17 +302,17 @@ public class MapMainActivity extends Activity {
             mBaiduMap.setOnMapTouchListener(new BaiduMap.OnMapTouchListener() {
                 @Override
                 public void onTouch(MotionEvent motionEvent) {
-                    mBaiduMap.hideInfoWindow();//影藏气泡
-
-                    //如果是跟随 切换到普通模式
-                    if (mMapMode == 0) {
-                        mCurrentMode = MyLocationConfiguration.LocationMode.NORMAL;
-                        MyLocationConfiguration config = new MyLocationConfiguration(
-                                mCurrentMode, true, mCurrentMarker);
-                        if (mBaiduMap != null) {
-                            mBaiduMap.setMyLocationConfigeration(config);
-                        }
-                    }
+//                    mBaiduMap.hideInfoWindow();//影藏气泡
+//
+//                    //如果是跟随 切换到普通模式
+//                    if (mMapMode == 0) {
+//                        mCurrentMode = MyLocationConfiguration.LocationMode.NORMAL;
+//                        MyLocationConfiguration config = new MyLocationConfiguration(
+//                                mCurrentMode, true, mCurrentMarker);
+//                        if (mBaiduMap != null) {
+//                            mBaiduMap.setMyLocationConfigeration(config);
+//                        }
+//                    }
                 }
             });
         }
@@ -400,51 +463,59 @@ public class MapMainActivity extends Activity {
                 }
             }
 
+            ((TextView) findViewById(R.id.currentSpeed)).setText("当前配速：" + location.getSpeed() + "公里/时");
+
+            Double onceRecent = 0.0;
             LatLng point = new LatLng(mLatitude, mLongitude);
-            points.add(point);
-            mHistoryPoints.add(point);
+            if (mIsCalculate == 1) { //开始的时候记录点
+                if (points.size() >= 1) {
+                    LatLng pointPre = points.get(0);
+                    onceRecent = DistanceUtil.getDistance(pointPre, point);
 
-            ((TextView)findViewById(R.id.currentSpeed)).setText("当前速度：" + location.getSpeed() + "公里/时");
+                    if (onceRecent < 20) {
+                        points.add(point);
+                        mHistoryPoints.add(point);
+                    }
+                } else {
+                    points.add(point);
+                    mHistoryPoints.add(point);
+                }
+            }
 
-            if (points.size() >= 2 && mIsCalculate > 0) { //当绘制点大于2个后清除列表，然后再累计绘制
-
-                LatLng pointPre = points.get(0);
-
-                Double recent = DistanceUtil.getDistance(pointPre, point);
-//                if (recent > 1000) {
-//                    points.remove(point);
-//                    return;
-//                }
+//              Log.v("zou", "------" + location.getSpeed() + "---distance---" + recent);
+            if (mIsCalculate == 1 && points.size() >= 2) { //正在运动 且 绘制点大于2个再绘制
 
                 OverlayOptions ooPolyline = new PolylineOptions().width(10)
                         .color(0xAAFF0000).points(points);
                 mBaiduMap.addOverlay(ooPolyline);  //绘制折线
 
-                mTotalDistance += recent;
-//                Log.v("zou", "------" + location.getSpeed() + "---distance---" + recent);
-                if (mIsCalculate == 2) { //停止运动
-                    Date endDate = new Date();
-                    ((TextView)findViewById(R.id.totalDistance)).setText("运动距离:" + Math.round((float) mTotalDistance * 100) / 100.0 + "米");
-                    long sportTime = endDate.getTime() - mStartTime.getTime();
-                    float hourTime = sportTime/(60 * 1000f);
-                    float everSpeed = (float) (Math.round((float) (mTotalDistance/hourTime)*100)/100.0);
-                    ((TextView)findViewById(R.id.speedEver)).setText("平均速度：" + everSpeed + "米/分");
+                mTotalDistance += onceRecent;
 
-                    ((TextView)findViewById(R.id.speedEfficiency)).setText("平均速率：" + Math.round(1000/everSpeed * 100)/100.0 + "分钟");
+                ((TextView) findViewById(R.id.totalDistance)).setText("运动距离:" + Math.round((float) mTotalDistance * 100) / 100.0 + "米");
+                long sportTime = mEndTime.getTime() - mStartTime.getTime();
+                long hourTime = sportTime / (60 * 1000);
+                float everSpeed = (float) (Math.round((float) (mTotalDistance / hourTime) * 100) / 100.0);
+                ((TextView) findViewById(R.id.speedEver)).setText("平均速度：" + everSpeed + "米/分");
 
-                    double kaluli = calcCalorie(sportTime/1000f, mTotalDistance, mTotalDistance/(sportTime/1000f), 0, 80);
-                    ((TextView)findViewById(R.id.kaluli)).setText("卡路里：" + Math.round(kaluli * 100) / 100.0 + "大卡");
+                if (mTotalDistance > 0) {
+                    ((TextView) findViewById(R.id.speedEfficiency)).setText("平均速率：" + Math.round(1000 / everSpeed * 100) / 100.0 + "分/千米");
 
-                    mIsCalculate = 0;
+                    double kaluli = calcCalorie(sportTime / 1000f, mTotalDistance, mTotalDistance / (sportTime / 1000f), 0, mWeight);
+                    ((TextView) findViewById(R.id.kaluli)).setText("卡路里：" + Math.round(kaluli * 100) / 100.0 + "大卡");
+                } else {
+                    ((TextView) findViewById(R.id.speedEfficiency)).setText("平均速率：" + 0.0 + "分/千米");
+
+                    ((TextView) findViewById(R.id.kaluli)).setText("卡路里：" + 0.0 + "大卡");
                 }
 
+                if (mHistoryPoints.size() >= 3) {
+                    mBaiduMap.clear();
+                    ooPolyline = new PolylineOptions().width(10)
+                            .color(0xAAFF0000).points(mHistoryPoints);
+                    mBaiduMap.addOverlay(ooPolyline);  //绘制历史折线
+                }
                 points.clear();
                 points.add(point);
-
-            } else {
-                if (mIsCalculate == 2) { //停止计算，还在原地
-                    //结束运动
-                }
             }
         }
     }

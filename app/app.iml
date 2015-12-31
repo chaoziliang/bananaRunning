@@ -97,5 +97,7 @@
     <orderEntry type="library" exported="" name="EventBus-2.4.0" level="project" />
     <orderEntry type="library" exported="" name="locationSDK_6.12" level="project" />
     <orderEntry type="library" exported="" name="locSDK_6.12" level="project" />
+    <orderEntry type="library" exported="" name="baidumapapi_v3_5_0_new" level="project" />
+    <orderEntry type="library" exported="" name="design-23.1.1" level="project" />
   </component>
 </module>

@@ -73,7 +73,7 @@ public class PedometerManager {
         event.mIsUpdate = true;
         event.mTotalStep = StepDetector.CURRENT_STEP;
         BaseApplication.postEvent(event);
-        Log.i("zou", "<PedometerManager> countStep" );
+        Log.i("zou", "<PedometerManager> countStep");
 
     }
 

@@ -7,8 +7,9 @@ import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.IBinder;
 import android.os.PowerManager;
-import android.os.PowerManager.WakeLock;
 import android.widget.Toast;
+
+import qingbai.bike.banana.running.application.BaseApplication;
 
 /**
  * zoubo
@@ -22,7 +23,10 @@ public class PedometerService extends Service {
     private StepDetector detector;  // 传感器监听对象
 
     private PowerManager mPowerManager; // 电源管理服务
-    private WakeLock mWakeLock;  // 屏幕灯
+    private PowerManager.WakeLock mWakeLock;  // 屏幕灯
+
+    private Sensor mStepCount;
+    private Sensor mStepDetector;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -42,13 +46,16 @@ public class PedometerService extends Service {
         mSensorManager = (SensorManager) this.getSystemService(SENSOR_SERVICE);
 
         /*******如果是4.4以上版本,直接使用计步器,否则采集传感器数据*******/
-        Sensor countSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR);
+//        Sensor countSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR);
+        mStepCount = mSensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
+        mStepDetector = mSensorManager.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR);
 
-        if (countSensor != null) {
-            Toast.makeText(this, "Count sensor is available!", Toast.LENGTH_SHORT).show();
-            mSensorManager.registerListener(detector, countSensor, SensorManager.SENSOR_DELAY_UI);
+        if (mStepCount != null) {
+            Toast.makeText(this, "记步传感器可用!", Toast.LENGTH_SHORT).show();
+            mSensorManager.registerListener(detector, mStepCount, SensorManager.SENSOR_DELAY_UI);
+            mSensorManager.registerListener(detector, mStepDetector, SensorManager.SENSOR_DELAY_UI);
         } else {  //采用加速的传感器计算
-            Toast.makeText(this, "Count sensor not available!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "记步传感器不可用，加速度算法记步！", Toast.LENGTH_SHORT).show();
             // 注册传感器，注册监听器
             mSensorManager.registerListener(detector,
                     mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
@@ -58,13 +65,13 @@ public class PedometerService extends Service {
         /*******启动定时器进行数据刷新*********/
         PedometerManager.getInstance().startStepCountTask();
 
-        // 电源管理服务
-        mPowerManager = (PowerManager) this
+        // 电源管理服务  PARTIAL_WAKE_LOCK : CPU 运转，屏幕和键盘灯关闭
+        mPowerManager = (PowerManager) BaseApplication.getAppContext()
                 .getSystemService(Context.POWER_SERVICE);
-        mWakeLock = mPowerManager.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, "S");
+//        mWakeLock = mPowerManager.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, "AccelOn");
+        mWakeLock = mPowerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "AccelOn");
         mWakeLock.acquire();
     }
-
 
 
     @Override
