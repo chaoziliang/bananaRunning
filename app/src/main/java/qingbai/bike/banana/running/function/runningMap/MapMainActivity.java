@@ -472,7 +472,7 @@ public class MapMainActivity extends Activity {
                     LatLng pointPre = points.get(0);
                     onceRecent = DistanceUtil.getDistance(pointPre, point);
 
-                    if (onceRecent < 20) {
+                    if (onceRecent < 1000) {
                         points.add(point);
                         mHistoryPoints.add(point);
                     }
@@ -514,13 +514,13 @@ public class MapMainActivity extends Activity {
                             .color(0xAAFF0000).points(mHistoryPoints);
                     mBaiduMap.addOverlay(ooPolyline);  //绘制历史折线
 
-                    if (mHistoryPoints.size() >= 50) {
-                        LatLng p1 = mHistoryPoints.get(mHistoryPoints.size() - 2);
-                        LatLng p2 = mHistoryPoints.get(mHistoryPoints.size() - 1);
-                        mHistoryPoints.clear();
-                        mHistoryPoints.add(p1);
-                        mHistoryPoints.add(p2);
-                    }
+//                    if (mHistoryPoints.size() >= 50) {
+//                        LatLng p1 = mHistoryPoints.get(mHistoryPoints.size() - 2);
+//                        LatLng p2 = mHistoryPoints.get(mHistoryPoints.size() - 1);
+//                        mHistoryPoints.clear();
+//                        mHistoryPoints.add(p1);
+//                        mHistoryPoints.add(p2);
+//                    }
                 }
                 points.clear();
                 points.add(point);
