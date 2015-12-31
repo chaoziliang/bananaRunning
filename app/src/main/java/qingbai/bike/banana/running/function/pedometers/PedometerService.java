@@ -3,6 +3,7 @@ package qingbai.bike.banana.running.function.pedometers;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.IBinder;
@@ -28,6 +29,15 @@ public class PedometerService extends Service {
     private Sensor mStepCount;
     private Sensor mStepDetector;
 
+
+    //监听时间变化的 这个receiver只能动态创建
+    private TimeTickReceiver mTickReceiver;
+    private IntentFilter mTimeFilter;
+
+    private ScreenChangeReceiver mScreenReceiver;
+    private IntentFilter mScreenFilter;
+
+
     @Override
     public IBinder onBind(Intent intent) {
         return null;
@@ -36,6 +46,21 @@ public class PedometerService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        mTimeFilter = new IntentFilter();
+        mTimeFilter.addAction(Intent.ACTION_TIME_TICK); //每分钟变化的action
+        mTimeFilter.addAction(Intent.ACTION_DATE_CHANGED); //每天变化的action
+        mTimeFilter.addAction(Intent.ACTION_TIME_CHANGED); //设置了系统时间的action
+        mTickReceiver = new TimeTickReceiver();
+        registerReceiver(mTickReceiver, mTimeFilter);
+
+        mScreenFilter = new IntentFilter();
+        mScreenFilter.addAction(Intent.ACTION_SCREEN_OFF);
+        mScreenFilter.addAction(Intent.ACTION_SCREEN_ON);
+        mScreenFilter.addAction(Intent.ACTION_USER_PRESENT);
+        mScreenFilter.addAction(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
+        mScreenReceiver = new ScreenChangeReceiver();
+        registerReceiver(mScreenReceiver, mScreenFilter);
 
         FLAG = true; // 标记为服务正在运行
 
@@ -50,7 +75,7 @@ public class PedometerService extends Service {
         mStepCount = mSensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
         mStepDetector = mSensorManager.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR);
 
-        if (mStepCount != null) {
+        if (mStepCount != null && mStepDetector != null) {
             Toast.makeText(this, "记步传感器可用!", Toast.LENGTH_SHORT).show();
             mSensorManager.registerListener(detector, mStepCount, SensorManager.SENSOR_DELAY_UI);
             mSensorManager.registerListener(detector, mStepDetector, SensorManager.SENSOR_DELAY_UI);
@@ -84,6 +109,13 @@ public class PedometerService extends Service {
 
         if (mWakeLock != null) {
             mWakeLock.release();
+        }
+
+        if (mTickReceiver != null) {
+            unregisterReceiver(mTickReceiver);
+        }
+        if (mScreenReceiver != null) {
+            unregisterReceiver(mScreenReceiver);
         }
 
         PedometerManager.getInstance().stopStepCountTask();

@@ -81,9 +81,8 @@ public class StepDetector implements SensorEventListener {
                 if (event.values[0] == 1.0) {
                     CURRENT_STEP++;
                 }
-            } else if (sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
-
-                //加速度传感器
+            } else {
+                //加速度传感器，计算方法1
                 int j = (sensor.getType() == Sensor.TYPE_ACCELEROMETER) ? 1 : 0;
                 if (j == 1) {
                     //加速度取模
@@ -134,5 +133,7 @@ public class StepDetector implements SensorEventListener {
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
     }
+
+
 
 }

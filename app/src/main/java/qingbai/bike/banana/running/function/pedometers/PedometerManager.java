@@ -49,7 +49,6 @@ public class PedometerManager {
         public void run() {
             //TODO:通知UI线程
             countStep();
-
         }
     }
 
@@ -71,7 +70,6 @@ public class PedometerManager {
     private void countStep() {
         PedometerEvent event = new PedometerEvent();
         event.mIsUpdate = true;
-        event.mTotalStep = StepDetector.CURRENT_STEP;
         BaseApplication.postEvent(event);
         Log.i("zou", "<PedometerManager> countStep");
 
