@@ -508,11 +508,19 @@ public class MapMainActivity extends Activity {
                     ((TextView) findViewById(R.id.kaluli)).setText("卡路里：" + 0.0 + "大卡");
                 }
 
-                if (mHistoryPoints.size() >= 3) {
+                if (mHistoryPoints.size() >= 2 && (points.size() % 2 == 0)) {
                     mBaiduMap.clear();
                     ooPolyline = new PolylineOptions().width(10)
                             .color(0xAAFF0000).points(mHistoryPoints);
                     mBaiduMap.addOverlay(ooPolyline);  //绘制历史折线
+
+                    if (mHistoryPoints.size() >= 50) {
+                        LatLng p1 = mHistoryPoints.get(mHistoryPoints.size() - 2);
+                        LatLng p2 = mHistoryPoints.get(mHistoryPoints.size() - 1);
+                        mHistoryPoints.clear();
+                        mHistoryPoints.add(p1);
+                        mHistoryPoints.add(p2);
+                    }
                 }
                 points.clear();
                 points.add(point);
