@@ -472,7 +472,7 @@ public class MapMainActivity extends Activity {
                     LatLng pointPre = points.get(0);
                     onceRecent = DistanceUtil.getDistance(pointPre, point);
 
-                    if (onceRecent < 1000) {
+                    if (onceRecent < 20) {
                         points.add(point);
                         mHistoryPoints.add(point);
                     }
