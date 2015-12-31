@@ -95,7 +95,7 @@
     <orderEntry type="library" exported="" name="armeabi" level="project" />
     <orderEntry type="library" exported="" name="support-annotations-23.1.1" level="project" />
     <orderEntry type="library" exported="" name="appcompat-v7-23.1.1" level="project" />
-    <orderEntry type="library" exported="" name="locSDK_6.12" level="project" />
+    <orderEntry type="library" exported="" name="baidumapapi_v3_5_0_new" level="project" />
     <orderEntry type="library" exported="" name="design-23.1.1" level="project" />
   </component>
 </module>
