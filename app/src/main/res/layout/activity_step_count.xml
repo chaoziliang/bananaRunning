@@ -1,28 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:orientation="vertical"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:gravity="center"
     tools:context=".function.pedometers.PedometerActivity">
 
-
-    <TextView
-        android:id="@+id/tv_name"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="计步器 步数：" />
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/tv_step_number"
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="计步器 步数：" />
+
+        <TextView
+            android:id="@+id/tv_step_number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_name"
+            android:gravity="center"
+            android:text="0"
+            android:textSize="15sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tv_name"
-        android:gravity="center"
-        android:text="0"
-        android:textSize="15sp" />
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="传感器 总步数：" />
+
+        <TextView
+            android:id="@+id/tv_step_count"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_name"
+            android:gravity="center"
+            android:text="0"
+            android:textSize="15sp" />
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/ll_control"
@@ -123,4 +152,4 @@
         android:text="灵敏度: 越高,对身体的动作越敏感.请调节灵敏度来适应不同的体形,路面等因素."
         android:textColor="@android:color/black" />
 
-</RelativeLayout>
+</LinearLayout>

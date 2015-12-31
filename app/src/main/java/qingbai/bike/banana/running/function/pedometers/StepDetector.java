@@ -16,6 +16,8 @@ public class StepDetector implements SensorEventListener {
     private Context mContext;
 
     public static int CURRENT_STEP = 0;
+    public static int STEP_COUNT = 0;
+    public static int FIRST_STEP_COUNT = 0;
 
     public static float SENSITIVITY = 4.44f;   //SENSITIVITY灵敏度
 
@@ -68,7 +70,11 @@ public class StepDetector implements SensorEventListener {
 
             } else if (sensor.getType() == Sensor.TYPE_STEP_COUNTER) {
                 // Step Counter
-                CURRENT_STEP = (int) event.values[0];
+                if (FIRST_STEP_COUNT == 0) {
+                    FIRST_STEP_COUNT = (int) event.values[0];
+                } else {
+                    STEP_COUNT = (int) event.values[0] - FIRST_STEP_COUNT;
+                }
 
             } else if (sensor.getType() == Sensor.TYPE_STEP_DETECTOR) {
                 // Step Detector

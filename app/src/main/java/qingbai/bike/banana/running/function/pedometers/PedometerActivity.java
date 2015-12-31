@@ -18,6 +18,8 @@ import qingbai.bike.banana.running.application.BaseApplication;
  */
 public class PedometerActivity extends AppCompatActivity implements View.OnClickListener {
     private TextView mStepNumTextView;
+    private TextView mStepCountTextView;
+
     private Button mStartCount;
     private Button mStopCount;
 
@@ -41,6 +43,7 @@ public class PedometerActivity extends AppCompatActivity implements View.OnClick
 
     private void initView() {
         mStepNumTextView = (TextView) findViewById(R.id.tv_step_number);
+        mStepCountTextView = (TextView) findViewById(R.id.tv_step_count);
         mStartCount = (Button) findViewById(R.id.btn_start_count);
         mStopCount = (Button) findViewById(R.id.btn_stop_count);
 
@@ -90,6 +93,7 @@ public class PedometerActivity extends AppCompatActivity implements View.OnClick
     public void onEventMainThread(PedometerEvent event) {
         if (event.mIsUpdate) {
             mStepNumTextView.setText(StepDetector.CURRENT_STEP + "");  // 显示当前步数
+            mStepCountTextView.setText(StepDetector.STEP_COUNT + "");  // 显示当前步数
         }
     }
 
@@ -99,10 +103,14 @@ public class PedometerActivity extends AppCompatActivity implements View.OnClick
         Intent service = new Intent(this, PedometerService.class);
         if (v.getId() == R.id.btn_start_count) {
             StepDetector.CURRENT_STEP = 0;
+            StepDetector.FIRST_STEP_COUNT = 0;
+            StepDetector.STEP_COUNT = 0;
             startService(service);
         } else if (v.getId() == R.id.btn_stop_count) {
             stopService(service);
             StepDetector.CURRENT_STEP = 0;
+            StepDetector.FIRST_STEP_COUNT = 0;
+            StepDetector.STEP_COUNT = 0;
 //            mStepNumTextView.setText(StepDetector.CURRENT_STEP + "");  // 显示当前步数
         }
     }
