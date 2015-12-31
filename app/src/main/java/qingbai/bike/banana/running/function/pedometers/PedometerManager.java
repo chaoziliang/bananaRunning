@@ -49,7 +49,6 @@ public class PedometerManager {
         public void run() {
             //TODO:通知UI线程
             countStep();
-
         }
     }
 

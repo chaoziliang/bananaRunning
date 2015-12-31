@@ -3,6 +3,7 @@ package qingbai.bike.banana.running.function.pedometers;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.IBinder;
@@ -28,6 +29,11 @@ public class PedometerService extends Service {
     private Sensor mStepCount;
     private Sensor mStepDetector;
 
+
+    //监听时间变化的 这个receiver只能动态创建
+    private TimeTickReceiver mTickReceiver;
+    private IntentFilter mFilter;
+
     @Override
     public IBinder onBind(Intent intent) {
         return null;
@@ -36,6 +42,13 @@ public class PedometerService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        mFilter = new IntentFilter();
+        mFilter.addAction(Intent.ACTION_TIME_TICK); //每分钟变化的action
+        mFilter.addAction(Intent.ACTION_TIME_CHANGED); //设置了系统时间的action
+        mTickReceiver = new TimeTickReceiver();
+        registerReceiver(mTickReceiver, mFilter);
+
 
         FLAG = true; // 标记为服务正在运行
 
@@ -84,6 +97,10 @@ public class PedometerService extends Service {
 
         if (mWakeLock != null) {
             mWakeLock.release();
+        }
+
+        if (mTickReceiver != null) {
+            unregisterReceiver(mTickReceiver);
         }
 
         PedometerManager.getInstance().stopStepCountTask();
