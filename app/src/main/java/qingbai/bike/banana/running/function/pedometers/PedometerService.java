@@ -32,7 +32,11 @@ public class PedometerService extends Service {
 
     //监听时间变化的 这个receiver只能动态创建
     private TimeTickReceiver mTickReceiver;
-    private IntentFilter mFilter;
+    private IntentFilter mTimeFilter;
+
+    private ScreenChangeReceiver mScreenReceiver;
+    private IntentFilter mScreenFilter;
+
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -43,12 +47,20 @@ public class PedometerService extends Service {
     public void onCreate() {
         super.onCreate();
 
-        mFilter = new IntentFilter();
-        mFilter.addAction(Intent.ACTION_TIME_TICK); //每分钟变化的action
-        mFilter.addAction(Intent.ACTION_TIME_CHANGED); //设置了系统时间的action
+        mTimeFilter = new IntentFilter();
+        mTimeFilter.addAction(Intent.ACTION_TIME_TICK); //每分钟变化的action
+        mTimeFilter.addAction(Intent.ACTION_DATE_CHANGED); //每天变化的action
+        mTimeFilter.addAction(Intent.ACTION_TIME_CHANGED); //设置了系统时间的action
         mTickReceiver = new TimeTickReceiver();
-        registerReceiver(mTickReceiver, mFilter);
+        registerReceiver(mTickReceiver, mTimeFilter);
 
+        mScreenFilter = new IntentFilter();
+        mScreenFilter.addAction(Intent.ACTION_SCREEN_OFF);
+        mScreenFilter.addAction(Intent.ACTION_SCREEN_ON);
+        mScreenFilter.addAction(Intent.ACTION_USER_PRESENT);
+        mScreenFilter.addAction(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
+        mScreenReceiver = new ScreenChangeReceiver();
+        registerReceiver(mScreenReceiver, mScreenFilter);
 
         FLAG = true; // 标记为服务正在运行
 
@@ -101,6 +113,9 @@ public class PedometerService extends Service {
 
         if (mTickReceiver != null) {
             unregisterReceiver(mTickReceiver);
+        }
+        if (mScreenReceiver != null) {
+            unregisterReceiver(mScreenReceiver);
         }
 
         PedometerManager.getInstance().stopStepCountTask();
