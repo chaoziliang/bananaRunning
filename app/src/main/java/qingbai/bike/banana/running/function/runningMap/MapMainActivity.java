@@ -498,12 +498,12 @@ public class MapMainActivity extends Activity {
                 ((TextView) findViewById(R.id.speedEver)).setText("平均速度：" + everSpeed + "米/分");
 
                 if (mTotalDistance > 0) {
-                    ((TextView) findViewById(R.id.speedEfficiency)).setText("平均速率：" + Math.round(1000 / everSpeed * 100) / 100.0 + "分钟/千米");
+                    ((TextView) findViewById(R.id.speedEfficiency)).setText("平均速率：" + Math.round(1000 / everSpeed * 100) / 100.0 + "分/千米");
 
                     double kaluli = calcCalorie(sportTime / 1000f, mTotalDistance, mTotalDistance / (sportTime / 1000f), 0, mWeight);
                     ((TextView) findViewById(R.id.kaluli)).setText("卡路里：" + Math.round(kaluli * 100) / 100.0 + "大卡");
                 } else {
-                    ((TextView) findViewById(R.id.speedEfficiency)).setText("平均速率：" + 0.0 + "分钟/千米");
+                    ((TextView) findViewById(R.id.speedEfficiency)).setText("平均速率：" + 0.0 + "分/千米");
 
                     ((TextView) findViewById(R.id.kaluli)).setText("卡路里：" + 0.0 + "大卡");
                 }
