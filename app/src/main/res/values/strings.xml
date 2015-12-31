@@ -1,4 +1,4 @@
 <resources>
-    <string name="app_name">bananaRunning</string>
+    <string name="app_name">香蕉打卡</string>
     <string name="title_activity_step_count">StepCountActivity</string>
 </resources>

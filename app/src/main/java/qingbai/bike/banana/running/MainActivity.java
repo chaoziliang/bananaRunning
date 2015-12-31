@@ -7,6 +7,7 @@ import android.view.View;
 
 import qingbai.bike.banana.running.function.pedometers.PedometerActivity;
 import qingbai.bike.banana.running.function.runningMap.MapMainActivity;
+import qingbai.bike.banana.running.function.weather.WeatherDemo;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -32,6 +33,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, MapMainActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        findViewById(R.id.goto_weather).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, WeatherDemo.class);
                 startActivity(intent);
             }
         });
