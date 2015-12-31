@@ -7,6 +7,9 @@ import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 import qingbai.bike.banana.running.application.BaseApplication;
 
 /**
@@ -27,6 +30,12 @@ public class CityLocation {
         mLocationClient.registerLocationListener(myListener);
         initLocation();
 
+    }
+
+    public void stop(){
+        if(mLocationClient != null){
+            mLocationClient.stop();
+        }
     }
 
     private void initLocation() {
@@ -63,11 +72,29 @@ public class CityLocation {
                 Log.i("chao", "location is successful");
                 if (mLocationResultCallBack != null) {
 
-                    Log.i("chao", "city: " + bdLocation.getCity() + " district: " + bdLocation.getDistrict());
-                    mLocationResultCallBack.onSuccessfulLocation(bdLocation.getCityCode());
-                    mLocationClient.stop();
+                    String city = bdLocation.getCity();
+                    if(city != null){
+                        if(city.contains("市")){
+                            city = city.replace("市", "");
+                        }
+
+                        try {
+                            city = URLEncoder.encode(city, "UTF-8");
+                            Log.i("chao", "city: " + bdLocation.getCity() + " district: " + bdLocation.getDistrict());
+                            mLocationResultCallBack.onSuccessfulLocation(city);
+                            mLocationClient.stop();
+                            return;
+                        } catch (UnsupportedEncodingException e) {
+                            e.printStackTrace();
+                        }
+                    }
                 }
-                return;
+
+                if (mLocationResultCallBack != null) {
+                    String errorMessge = "定位失败";
+//                    if(code == )
+                    mLocationResultCallBack.onFailLocation(errorMessge);
+                }
 
             } else {
                 if (mLocationResultCallBack != null) {

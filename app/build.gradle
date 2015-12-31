@@ -11,7 +11,21 @@ android {
         versionCode 1
         versionName "1.0"
     }
+
+    //配置keystore签名
+    signingConfigs {
+        release {
+            storeFile file("700bike.jks")
+            storePassword "700bike"
+            keyAlias "700bike"
+            keyPassword "700bike"
+        }
+    }
+
     buildTypes {
+        debug {
+            signingConfig signingConfigs.release
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
@@ -29,4 +43,6 @@ dependencies {
     compile 'com.android.support:design:23.1.1'
     compile 'com.mcxiaoke.volley:library:1.+'
     compile files('libs/locationSDK_6.12.jar')
+    compile files('libs/baidumapapi_v3_5_0_new.jar')
+    compile files('libs/baidumapapi_v3_5_0.jar')
 }

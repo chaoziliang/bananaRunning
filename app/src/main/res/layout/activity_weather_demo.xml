@@ -23,10 +23,12 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
-            android:text="广州 14:01"
+            android:text="正在loading..."
             android:textColor="#ffffff" />
 
         <LinearLayout
+            android:id="@+id/weather_content"
+            android:visibility="invisible"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
@@ -50,28 +52,28 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
-                    android:text="晴朗" />
+                    />
 
                 <TextView
                     android:id="@+id/today_templeture"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
-                    android:text="15°" />
+                    />
 
                 <TextView
                     android:id="@+id/today_su"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
-                    android:text="相对湿度 70" />
+                    />
 
                 <TextView
                     android:id="@+id/today_wind"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
-                    android:text="东北风" />
+                    />
 
                 <TextView
                     android:id="@+id/today_quality"
@@ -79,7 +81,7 @@
                     android:layout_height="wrap_content"
                     android:background="#FFF68F"
                     android:padding="3dp"
-                    android:text="74 良" />
+                    />
             </LinearLayout>
 
             <LinearLayout
@@ -94,35 +96,35 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
-                    android:text="星期二" />
+                    android:text="明天" />
 
                 <TextView
                     android:id="@+id/tomorrow_weather"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
-                    android:text="晴朗" />
+                     />
 
                 <TextView
                     android:id="@+id/tomorrow_templeture"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
-                    android:text="15°" />
+                     />
 
                 <TextView
                     android:id="@+id/tomorrow_su"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
-                    android:text="相对湿度 70" />
+                     />
 
                 <TextView
                     android:id="@+id/tomorrow_wind"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
-                    android:text="东北风" />
+                    />
             </LinearLayout>
 
             <LinearLayout
@@ -137,35 +139,35 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
-                    android:text="星期三" />
+                    android:text="后天" />
 
                 <TextView
                     android:id="@+id/last_weather"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
-                    android:text="晴朗" />
+                  />
 
                 <TextView
                     android:id="@+id/last_templeture"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
-                    android:text="15°" />
+                     />
 
                 <TextView
                     android:id="@+id/last_su"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
-                    android:text="相对湿度 70" />
+                     />
 
                 <TextView
                     android:id="@+id/last_wind"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
-                    android:text="东北风" />
+                    />
             </LinearLayout>
 
 
